@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/js/function.js</file>
+        <file>jquery.min.js</file>
+    </qresource>
+</RCC>

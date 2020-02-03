@@ -1,0 +1,6 @@
+webengine 使用前.pro 增加QT += core gui webenginewidgets webchannel
+
+将 WebObject 注册 起到类似model层的作用
+能够给web传值
+
+“工程中”必须包含jquery.min.js和qwebchannel.js

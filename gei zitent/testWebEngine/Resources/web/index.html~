@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery.min.js"></script>
+<script src="qwebchannel.js"></script>
+</head>
+
+      <div>
+      <span>name:</span><input type="text" id="name"/>
+      <br/>
+      <span>age:</span><input type="text" id="age"/>
+<br/>
+	<input id="btn_submit" type="button" value="submit" />
+      </div>
+
+     <script>
+     'use strict'; //JS 不使用严格模式也可以
+
+         var updateName = function(text)
+         {
+         $("#name").val(text);
+
+             //调用 Qt 的函数，必须是 public slots 函数
+             window.bridge.slot_debug("update name: " + text);
+        }
+
+         var updateAge = function(text)
+         {
+             $("#age").val(text);
+             window.bridge.slot_debug("update age: " + text);
+         }
+
+         new QWebChannel(qt.webChannelTransport, function(channel) {
+
+        window.bridge = channel.objects.person;
+        
+               
+
+                 //直接使用 QObject 派生类的属性
+        
+         updateName(window.bridge.name);
+         updateAge(window.bridge.age);
+
+         //连接 Qt 的信号到 JS 函数
+         window.bridge.sig_nameChanged.connect(updateName);
+         window.bridge.sig_ageChanged.connect(updateAge);
+
+		//Web connect the Qt signal, then Qt can call "output" function
+		//接收信号，响应函数
+		window.bridge.SigSendMessageToJS.connect(
+			function(str) {
+		    		if(str == "ok") {alert("success");}
+				else {alert("faild");}
+			}
+		)
+
+         }
+         );
+
+	function showAlert()
+{
+	alert("js showAlert");
+}
+
+$(function()
+{
+	
+	//Web send message to Qt 
+		$("#btn_submit").click(function(){
+			 //alert("login btn click");
+			 var name = document.getElementById("name").value;
+			 var passwd = document.getElementById("age").value;
+			 //发送消息
+			 window.bridge.JSSendMessage(name,passwd);           
+		})
+	
+         /* */
+
+})
+
+
+     </script>
+     </html>

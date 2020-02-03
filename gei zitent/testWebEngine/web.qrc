@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/web/index.html</file>
+        <file>Resources/web/testEcharts.html</file>
+        <file>Resources/web/qwebchannel.js</file>
+        <file>Resources/web/jquery.min.js</file>
+    </qresource>
+</RCC>
